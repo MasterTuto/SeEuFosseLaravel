@@ -5,8 +5,7 @@ import TestLib
 {-
 - acao:       funcao de testes.  
 - entrada:    acao de IO() (input/output).  
-- saida:      tem tipo (), que é uma tupla vazia. 
-- Ou seja, a função não retorna nenhum resultado interessante, apenas faz I/O; 
+- saida:      tem tipo (), que é uma tupla vazia. Ou seja, a função não retorna nenhum resultado interessante, apenas faz I/O; 
 - suposicoes: nenhuma. 
 - algoritmo:  utilizando o do, vai verificar a validade das expressoes passada, utilizando a funcao "avaliar" do modulo "Questao1".
 -}
