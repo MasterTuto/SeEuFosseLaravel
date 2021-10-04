@@ -143,30 +143,59 @@ apagarContatoPorPosicao posicao (contato:agenda) = contato:(apagarContatoPorPosi
 {-
 - acao:       Vai apagar o Contato utilizando o CPF. 
 - entrada:    CPF,Agenda (Lista de contatos).  
-- saida:      Agenda (Agenda com o contato apagado)
+- saida:      Agenda (Agenda com o contato apagado, ou nao se nao for encontrado).
 - suposicoes: supoe-se que os parametros estejam corretos. 
-- algoritmo:  Se a agenda estiver vazia, entao retorna a propria agenda.
-- Se a posicao for 0, ele retorna a agenda sem o contato da posicao.
-- Se a posicao nao for 0, continua fazendo a busca diminuindo a posicao buscando pela agenda. Faz a concatenacao do contato (nao o da busca) nesse caso e faz a busca com a tail.
+- algoritmo:  Se a posicao for maior que -1, entao vai apagar o contato utilizando a funcao apagarContatoPorCpf, passando a posicao encontrada.
+- Se nao, entao retorna a agenda sem alteracoes.
+- A posicao eh encontrada utilizando a funcao pesquisarContatoPorCpf, que recebe o CPF e a agenda.
 -}
+
 apagarContatoPorCpf :: CPF -> Agenda -> Agenda
 apagarContatoPorCpf cpf agenda
     | posicao > -1 = apagarContatoPorPosicao posicao agenda
     | otherwise = agenda
         where posicao = (pesquisarContatoPorCpf cpf agenda)
 
+{-
+- acao:       Vai apagar o Contato utilizando o Nome. 
+- entrada:    Nome,Agenda (Lista de contatos).  
+- saida:      Agenda (Agenda com o contato apagado, ou nao se nao for encontrado).
+- suposicoes: supoe-se que os parametros estejam corretos. 
+- algoritmo:  Se a posicao for maior que -1, entao vai apagar o contato utilizando a funcao apagarContatoPorPosicao, passando a posicao encontrada.
+- Se nao, entao retorna a agenda sem alteracoes.
+- A posicao eh encontrada utilizando a funcao pesquisarContatoPorNome, que recebe o Nome e a Agenda.
+-}
 apagarContatoPorNome :: Nome -> Agenda -> Agenda
 apagarContatoPorNome nome agenda
     | posicao > -1 = apagarContatoPorPosicao posicao agenda
     | otherwise = agenda
         where posicao = (pesquisarContatoPorNome nome agenda)
 
+{-
+- acao:       Vai alterar o Contato utilizando a posicao. 
+- entrada:    ContatoData (Contato),Agenda (Lista de contatos), posicao(Int).  
+- saida:      Agenda (Agenda com o contato apagado, ou nao se nao for encontrado).
+- suposicoes: supoe-se que os parametros estejam corretos. 
+- algoritmo:  Se a agenda estiver vazia, entao retorna a propria agenda.
+- Se o contato for Invalido, entao retorna a agenda sem alteracoes.
+- Se a posicao for 0, entao o contato foi encontrado, retornando a agenda sem esse contato.
+- Se a posicao nao for 0, entao continua a busca na lista, diminuindo 1 na posicao ateh chegar a 0.
+-}
 alterarContatoPorPosicao :: ContatoData -> Agenda -> Int -> Agenda
 alterarContatoPorPosicao _ [] _ = []
 alterarContatoPorPosicao Invalido agenda _ = agenda
 alterarContatoPorPosicao contato (contatoAtual:agenda) 0 = contato:agenda
 alterarContatoPorPosicao contato (contatoAtual:agenda) posicao = [contatoAtual]++(alterarContatoPorPosicao contato agenda (posicao-1))
 
+{-
+- acao:       Vai alterar o Contato utilizando o CPF. 
+- entrada:    ContatoData (Contato),Agenda (Lista de contatos), CPF.  
+- saida:      Agenda (Agenda com o contato apagado, ou nao se nao for encontrado).
+- suposicoes: supoe-se que os parametros estejam corretos. 
+- algoritmo:  Se a posicao for maior que -1, entao vai apagar o contato utilizando a funcao alterarContatoPorPosicao, passando a posicao encontrada.
+- Se nao, entao retorna a agenda sem alteracoes.
+- A posicao eh encontrada utilizando a funcao pesquisarContatoPorCpf, que recebe o CPF e a Agenda.
+-}
 alterarContatoPorCpf :: ContatoData -> Agenda -> CPF -> Agenda
 alterarContatoPorCpf contato agenda cpf
     | posicao > -1 = alterarContatoPorPosicao contato agenda posicao
@@ -174,6 +203,15 @@ alterarContatoPorCpf contato agenda cpf
     where
         posicao = (pesquisarContatoPorCpf cpf agenda)
 
+{-
+- acao:       Vai alterar o Contato utilizando o Nome. 
+- entrada:    ContatoData (Contato),Agenda (Lista de contatos), Nome.  
+- saida:      Agenda (Agenda com o contato apagado, ou nao se nao for encontrado).
+- suposicoes: supoe-se que os parametros estejam corretos. 
+- algoritmo:  Se a posicao for maior que -1, entao vai apagar o contato utilizando a funcao alterarContatoPorPosicao, passando a posicao encontrada.
+- Se nao, entao retorna a agenda sem alteracoes.
+- A posicao eh encontrada utilizando a funcao pesquisarContatoPorNome  que recebe o CPF e a Agenda.
+-}
 alterarContatoPorNome :: ContatoData -> Agenda -> Nome -> Agenda
 alterarContatoPorNome contato agenda nome
     | posicao > -1 = alterarContatoPorPosicao contato agenda posicao
@@ -181,19 +219,43 @@ alterarContatoPorNome contato agenda nome
     where
         posicao = (pesquisarContatoPorNome nome agenda)
 
+{-
+- acao:       vai converter um objeto Csv para agenda. 
+- entrada:    CsvObj(Objeto a ser alterado),Agenda (Lista de contatos).  
+- saida:      IO Agenda (transforma o Csv em agenda por meio do acumulador).
+- suposicoes: supoe-se que os parametros estejam corretos. 
+- algoritmo:  Se o Objeto Csv estiver vazio, entao retorna o acumulador.
+- Se o Objeto Csv for diferente de vazio, entao pegasse os dados do csvObj e enlista com o acumulador. 
+- O processo de enlistar os dados com o acumulador continua ateh o Csv estiver vazio.
+-}
 converterParaAgenda :: CsvObj -> Agenda -> IO Agenda
 converterParaAgenda [] acc = return acc
 converterParaAgenda (registro:csvObj) acc = converterParaAgenda csvObj ((Contato cpf nome telefone email):acc)
     where
         [cpf, nome, telefone, email] = registro
 
-
+{-
+- acao:       vai carregar a agenda utilizando caminho. 
+- entrada:    acao de IO() (input/output).  
+- saida:      tem tipo (), que é uma tupla vazia. Ou seja, a função não retorna nenhum resultado interessante, apenas faz I/O;
+- suposicoes: nenhuma. 
+- algoritmo:  Vai carregar a agenda utilizando a funcao do modulo Csv e a funcao converterParaAgenda, passando o objeto e a agenda vazia.
+-}
 carregarAgenda :: IO Agenda
 carregarAgenda =
     do
         arquivoCarregado <- carregarArquivo "agenda.csv"
         converterParaAgenda arquivoCarregado []
 
+{-
+- acao:       vai converter uma  agenda para Csv. 
+- entrada:    Agenda (Lista de contatos).  
+- saida:      CsvObj(Objeto Csv).
+- suposicoes: supoe-se que os parametros estejam corretos. 
+- algoritmo:  Se a agenda estiver vazia, entao retorna uma lista vazia.
+- Se a agenda nao estiver vazia, entao pegar os dados do contato atual da agenda e vai concatenar no Objeto Csv. O processo continua
+ate nao haver mais informacoes a serem concatenadas, ou seja, nao houver mais contatos.
+-}
 agendaParaCsvObj :: Agenda -> CsvObj
 agendaParaCsvObj [] = []
 agendaParaCsvObj (registro:agenda) = [[cpf, nome, telefone, email]]++(agendaParaCsvObj agenda)
@@ -203,5 +265,12 @@ agendaParaCsvObj (registro:agenda) = [[cpf, nome, telefone, email]]++(agendaPara
         telefone = telefoneContato registro
         email = emailContato registro
 
+{-
+- acao:       salvar a agenda utilizando a funcao escreverEmArquivo do Modulo Csv. 
+- entrada:    Agenda (Lista de contatos).  
+- saida:      tem tipo (), que é uma tupla vazia. Ou seja, a função não retorna nenhum resultado interessante, apenas faz I/O; 
+- suposicoes: supoe-se que os contatos estejam corretos. 
+- algoritmo:  Vai escrever os dados da agenda no arquivo passando o caminho e utilizando as funcoes escreverEmArquivo e agendaParaCsvObj.
+-}
 salvarAgenda :: Agenda -> IO()
 salvarAgenda agenda = escreverEmArquivo "agenda.csv" (agendaParaCsvObj agenda)
