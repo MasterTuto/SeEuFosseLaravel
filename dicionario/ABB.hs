@@ -1,7 +1,8 @@
 {-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 module ABB (ABB, insert, search, emptyTree, printTree, searchValue) where
---                  arvEsquerda valor arvDireita 
+
 data ABB a = Vazio | Node (ABB a) a (ABB a) deriving (Show, Eq, Ord)
+--                  arvEsquerda valor arvDireita 
 
 {-
 - acao:       inserir um elemento na arvore.  
@@ -9,8 +10,8 @@ data ABB a = Vazio | Node (ABB a) a (ABB a) deriving (Show, Eq, Ord)
 - saida:      Node (arvore passada com o elemento inserido); 
 - suposicoes: supoe-se que as expressoes sejam passadas corretamente, e seja uma arvore binaria. 
 - algoritmo:  Typeclass Ord, onde valores devem ser membros de Ord, podendo fazer a comparacoes entre eles.
-- Na linha 20, o elemento virou uma folha, sem Node direito nem esquerdo.
-- Na linha 21 para baixo eh onde comeca o processo de comparacao. 
+- Na linha 21, o elemento virou uma folha, sem Node direito nem esquerdo.
+- Na linha 22 para baixo eh onde comeca o processo de comparacao. 
 - Se o valor do nodulo atual (do que esta por conta da busca) for igual ao do elemento, entao ele retorna o Node encontrado.
 - Se o valor do nodulo atual (do que esta por conta da busca) for maior do que elemento, entao ele vai continuar a busca pelo nodulo esquerdo.
 - Se o valor do nodulo atual (do que esta por conta da busca) for menor do que elemento, entao ele vai continuar a busca pelo nodulo direito.
@@ -29,8 +30,8 @@ insert (Node left value right) element
 - saida:      Bool (se foi encontrado); 
 - suposicoes: supoe-se que as expressoes sejam passadas corretamente, e seja uma arvore binaria.. 
 - algoritmo:  Typeclass Ord, onde valores devem ser membros de Ord, podendo fazer a comparacoes entre eles.
-- Na linha 40, o elemento nao foi encontrado, jah que chegou num dos extremos de uma folha. Retorna False.
-- Na linha 41 para baixo eh onde comeca o processo de comparacao na busca. 
+- Na linha 41, o elemento nao foi encontrado, jah que chegou num dos extremos de uma folha. Retorna False.
+- Na linha 42 para baixo eh onde comeca o processo de comparacao na busca. 
 - Se o valor do nodulo atual (do que esta por conta da busca) for igual ao do elemento, entao ele retorna True. O Node foi encontrado.
 - Se o valor do nodulo atual (do que esta por conta da busca) for maior do que elemento, entao ele vai continuar a busca pelo nodulo esquerdo. Retorna False.
 - Se o valor do nodulo atual (do que esta por conta da busca) for menor do que elemento, entao ele vai continuar a busca pelo nodulo direito. Retorna False.
@@ -49,8 +50,8 @@ search (Node left value right) element
 - saida:      valor; 
 - suposicoes: supoe-se que as expressoes sejam passadas corretamente, e seja uma arvore binaria.. 
 - algoritmo:  Typeclass Ord, onde valores devem ser membros de Ord, podendo fazer a comparacoes entre eles.
-- Na linha --, o elemento nao foi encontrado, jah que chegou num dos extremos de uma folha. Retorna mensagem de erro.
-- Na linha -- para baixo eh onde comeca o processo de comparacao na busca. 
+- Na linha 61, o elemento nao foi encontrado, jah que chegou num dos extremos de uma folha. Retorna mensagem de erro.
+- Na linha 62 para baixo eh onde comeca o processo de comparacao na busca. 
 - Se o valor do nodulo atual (do que esta por conta da busca) for igual ao do elemento, o valor do Node foi encontrado.
 - Se o valor do nodulo atual (do que esta por conta da busca) for maior do que elemento, entao ele vai continuar a busca pelo nodulo esquerdo.
 - Se o valor do nodulo atual (do que esta por conta da busca) for menor do que elemento, entao ele vai continuar a busca pelo nodulo direito.

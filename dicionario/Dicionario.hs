@@ -7,7 +7,7 @@ data Dicionario = Dic Repeticao Valor
 
 {-
 - acao:       se fazer nova instância de tipos a partir do show. 
-- entrada:    Dicionario (Dicionario), repeticao, valor.
+- entrada:    Dicionario (Dicionario).
 - saida:      String (todos os dados concatenados);
 - suposicoes: nenhuma.
 - algoritmo:  Faz as concatenacoes usando o dicionario. Concatena o valor do nod e a repeticao.
