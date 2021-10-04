@@ -85,7 +85,7 @@ emptyTree = Vazio
 -}
 printTree :: Show a => ABB a -> String
 printTree Vazio = ""
-printTree (Node left value right) = (show value) ++ "\n" ++ (printTree left) ++ (printTree right)
+printTree (Node left value right) = (printTree left) ++ (show value) ++ "\n" ++ (printTree right)
 
 -- Arvore de inteiros para testes
 {-

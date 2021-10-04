@@ -5,5 +5,7 @@ import DicionarioMain
 main :: IO()
 main =
     do
-      writeFile ("caminho" ++ ".txt") "mensagem de dicionario"                          
-      writeFile ("contagem_" ++ "caminho" ++ ".txt") (imprimir "mensagem de dicionario" ) 
+      let mensagem = "oi testando talvez oi abc ab ab tem ho wpoe bic baa depois conta side"
+      writeFile ("caminho" ++ ".txt") mensagem                         
+      writeFile ("contagem_" ++ "caminho" ++ ".txt") (imprimir mensagem)
+    
