@@ -3,6 +3,13 @@ module TestQuestao5 where
 import Formula
 import InterfaceFormula
 
+{-
+- acao:       funcao de testes.  
+- entrada:    acao de IO() (input/output).  
+- saida:      tem tipo (), que é uma tupla vazia. Ou seja, a função não retorna nenhum resultado interessante, apenas faz I/O; 
+- suposicoes: nenhuma. 
+- algoritmo:  passa uma formula jah feita para o montarTabelaCompleta e verifica se a mesma eh tautologia.
+-}
 teste :: IO()
 teste =
     do
