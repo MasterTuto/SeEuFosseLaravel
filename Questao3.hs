@@ -1,16 +1,31 @@
 module Questao3 where
 
+-- Os importes utilizados para o menu
 import Agenda
 import Utils
 import TiposAgenda
 
+{-
+- acao:       funcao de testes.  
+- entrada:    acao de IO() (input/output).  
+- saida:      tem tipo (), que é uma tupla vazia. Ou seja, a função não retorna nenhum resultado interessante, apenas faz I/O; 
+- suposicoes: nenhuma. 
+- algoritmo:  utilizando o do, vai carregar a agenda e chamar a funcao loopPrincipal para apresentar o menu.
+-}
 main :: IO()
 main =
     do
         agenda <- carregarAgenda
         loopPrincipal agenda
 
-
+{-
+- acao:       exibir o menu como um loop ate o loop for encerrado na escolha. 
+- entrada:    Agenda (Lista de contatos que foi carregado para o menu).  
+- saida:      tem tipo (), que é uma tupla vazia. Ou seja, a função não retorna nenhum resultado interessante, apenas faz I/O; 
+- suposicoes: supoe-se que os dados de entrada estejam de acordo com o que se pede. 
+- algoritmo:  vai exibir o menu com a ajuda a funcao mostrarMenu e realizar as devidas acoes escolhidas nos cases, por meio das funcoes dos modulos. 
+- Volta para o loop principal depois de escolher uma opcao, fora a opcao de "Sair" - "0."
+-}
 loopPrincipal :: Agenda -> IO()
 loopPrincipal agenda =
     do
@@ -38,6 +53,13 @@ loopPrincipal agenda =
             "0" -> return ()
             _ -> loopPrincipal agenda --(mostrarErro agenda)
 
+{-
+- acao:       mostrar as Strings do menu.  
+- entrada:    acao de IO() (input/output).  
+- saida:      tem tipo (), que é uma tupla vazia. Ou seja, a função não retorna nenhum resultado interessante, apenas faz I/O; 
+- suposicoes: nenhuma. 
+- algoritmo:  utilizando o do, vai usar o putStrLn para imprimir o menu.
+-}
 mostrarMenu :: IO()
 mostrarMenu =
     do
@@ -50,13 +72,27 @@ mostrarMenu =
         putStrLn "\t[0] Sair"
         putStr "Digite o numero desejado: "
 
+{-
+- acao:       uma forma otimizada para receber uma entrada. 
+- entrada:    mensagem (String).  
+- saida:      IO String (String recebida). 
+- suposicoes: nenhuma. 
+- algoritmo:  recebe uma mensagem com o requerimento da entrada (usando getLine para obter);
+-}
 receberEntrada :: String -> IO String
 receberEntrada texto =
     do
         putStrLn texto
         getLine
 
-
+{-
+- acao:       cadastrar o contato. 
+- entrada:    Agenda (agenda para o cadastro do contato).  
+- saida:      IO Agenda (Agenda com o cadastro feito). 
+- suposicoes: os dados de entrada estejam corretos. 
+- algoritmo:  vai receber os dados do contato utilizando a funcao receberEntrada.
+- Se o CPF for valido, entao o cadastro eh feito. Se nao, entao uma mensagem eh mostrada.
+-}
 cadastrarContato :: Agenda -> IO Agenda
 cadastrarContato agenda =
     do
@@ -75,6 +111,14 @@ cadastrarContato agenda =
                 putStr "\n======= Cpf invalido! Inscricao indeferida ======\n"
                 return agenda
 
+{-
+- acao:       buscar contato. 
+- entrada:    Agenda (agenda para a busca do contato).  
+- saida:      acao de IO() (input/output).  
+- suposicoes: os dados de entrada estejam corretos. 
+- algoritmo:  vai receber uma pergunta, se deseja realizar a busca por nome ou contato utilizando as funcoes do modulo Agenda.
+- Por meio da funcao mostrarContato, vai exibir o contato buscado.
+-}
 buscarContato :: Agenda -> IO()
 buscarContato agenda =
     do
@@ -87,6 +131,13 @@ buscarContato agenda =
                 cpf <- receberEntrada "Digite o CPF: "
                 putStrLn (mostrarContato (agenda !! pesquisarContatoPorCpf cpf agenda) (-1))
 
+{-
+- acao:       mudanca dos dados de um contato. 
+- entrada:    ContatoData (Contato que vai ser alterado).  
+- saida:      IO ContatoData (Contato alterado). 
+- suposicoes: os dados de entrada estejam corretos. 
+- algoritmo:  Vai perguntar a opcao do que deseja mudar no contato e depois receber a mudanca, salvando ela no contato.
+-}
 pedirPraMudarContato :: ContatoData -> IO ContatoData
 pedirPraMudarContato (Contato cpf nome telefone email) = 
     do
@@ -115,7 +166,13 @@ pedirPraMudarContato (Contato cpf nome telefone email) =
                 putStrLn "Entrada invalida!"
                 pedirPraMudarContato (Contato cpf nome telefone email)
             
-
+{-
+- acao:       atualizar o contato da agenda. 
+- entrada:    Agenda(Lista de contatos).  
+- saida:      IO Agenda(Com o contato atualizado). 
+- suposicoes: os dados de entrada estejam corretos. 
+- algoritmo:  Vai ser pedido por onde deseja alterar, se encontrar (existir), e vai atualizar.
+-}
 atualizarContato :: Agenda -> IO Agenda
 atualizarContato agenda =
     do
@@ -166,6 +223,13 @@ atualizarContato agenda =
                         return (alterarContatoPorPosicao novoContato agenda posicaoInt)
             _ -> return agenda
 
+{-
+- acao:       apagar o contato da agenda. 
+- entrada:    Agenda(Lista de contatos).  
+- saida:      IO Agenda(Com o contato apagado). 
+- suposicoes: os dados de entrada estejam corretos. 
+- algoritmo:  Vai ser pedido por onde deseja apagar, se encontrar (existir), e vai apagar o contato.
+-}
 apagarContato :: Agenda -> IO Agenda
 apagarContato agenda =
     do

@@ -1,11 +1,7 @@
+{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 module Main where
 
 import Formula
-
--- entrar com uma formula
--- instrucoes
--- pegar uma formula do historico
--- sair
 
 main :: IO()
 main = mainAuxiliar []
@@ -14,7 +10,7 @@ mainAuxiliar :: [Formula] -> IO()
 mainAuxiliar formulas =
   do
     putStr (">1 Entrar com uma formula e montar tabela\n" ++
-            ">2 Montar tabela de uma formula do historico (historico eh apagado ao fim de cada execucao)\n" ++
+            ">2 Montar tabela de uma formula do historico (historico eh apagado ao fim da execucao)\n" ++
             ">3 Sair\n" ++
             ">")
     opcao <- getLine
@@ -100,7 +96,7 @@ imprimirTabela :: Tabela -> IO String
 imprimirTabela tabela =
   do
     let matriz = montarMatriz tabela -- [[String]]
-    let texto = transformaEmTexto matriz
+    let texto = transformaEmTabela matriz 1 (length matriz)
     return texto
 
 
@@ -115,10 +111,8 @@ montarColuna (a:b)
   | a = "V" : montarColuna b
   | otherwise = "F" : montarColuna b
 
-transformaEmTexto :: [[String]] -> String
-transformaEmTexto [] = []
-transformaEmTexto (a:b) = transformaEmLinha a ++ "\n" ++ transformaEmTexto b
-
-transformaEmLinha :: [String] -> String
-transformaEmLinha [e] = e
-transformaEmLinha (a:b) = a ++ "    " ++ transformaEmLinha b
+transformaEmTabela :: [[String]] -> Int -> Int -> String 
+transformaEmTabela ((a:b):c) cont quantidadeColunas 
+  | cont == quantidadeColunas = a ++ "\n" ++ transformaEmTabela (c ++ [b]) 1 quantidadeColunas
+  | otherwise = a ++ "    " ++ transformaEmTabela (c ++ [b]) (cont + 1) quantidadeColunas
+transformaEmTabela _ _ _ = ""
