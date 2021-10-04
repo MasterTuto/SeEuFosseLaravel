@@ -20,4 +20,4 @@ main =
         assertEqual test5 4.5 "\"5.0 4.0 + 2 /\" should be igual to 4.5"
 
         test5 <- avaliar "5.0 4.0 -"
-        assertEqual test5 9 "\"5.0 4.0 + 2 /\" should be different to 9"
+        assertNotEqual test5 9 "\"5.0 4.0 -\" should be different to 9"

@@ -4,7 +4,7 @@ import Questao2
 import TestLib
 
 main :: IO()
-main = 
+main =
     do
         assertTrue (verificarParenteses "") "\"\" should be valid"
 
@@ -15,7 +15,6 @@ main =
         assertTrue (verificarParenteses "(eu) (ja(nem)) (sei qm) ()(sou)") "\"(eu) (ja(nem)) (sei qm) ()(sou)\" should be valid"
 
         ------------------------------------------------------------------
-
         assertFalse (verificarParenteses ")()(") "\")()(\" should be invalid"
 
         assertFalse (verificarParenteses "()(") "\"()(\" should be invalid"
