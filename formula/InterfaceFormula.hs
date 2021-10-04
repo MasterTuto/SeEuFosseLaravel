@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 module Main where
 
 import Formula
@@ -95,7 +96,7 @@ imprimirTabela :: Tabela -> IO String
 imprimirTabela tabela =
   do
     let matriz = montarMatriz tabela -- [[String]]
-    let texto = transformaEmTexto matriz
+    let texto = transformaEmTabela matriz 1 (length matriz)
     return texto
 
 
@@ -110,10 +111,8 @@ montarColuna (a:b)
   | a = "V" : montarColuna b
   | otherwise = "F" : montarColuna b
 
-transformaEmTexto :: [[String]] -> String
-transformaEmTexto [] = []
-transformaEmTexto (a:b) = transformaEmLinha a ++ "\n" ++ transformaEmTexto b
-
-transformaEmLinha :: [String] -> String
-transformaEmLinha [e] = e
-transformaEmLinha (a:b) = a ++ "    " ++ transformaEmLinha b
+transformaEmTabela :: [[String]] -> Int -> Int -> String 
+transformaEmTabela ((a:b):c) cont quantidadeColunas 
+  | cont == quantidadeColunas = a ++ "\n" ++ transformaEmTabela (c ++ [b]) 1 quantidadeColunas
+  | otherwise = a ++ "    " ++ transformaEmTabela (c ++ [b]) (cont + 1) quantidadeColunas
+transformaEmTabela _ _ _ = ""
