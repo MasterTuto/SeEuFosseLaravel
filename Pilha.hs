@@ -4,9 +4,9 @@ data PilhaData a = Pilha [a] deriving Show
 
 {-
 - acao:       usar como pilhar vazia. 
-- entrada:    PilhaData a; 
+- entrada:    nenhuma; 
 - saida:      Pilha []; (pilha vazia)
-- suposicoes: supoe-se que a entrada seja uma PilhaData a.
+- suposicoes: nenhuma.
 - algoritmo:  retorna uma Pilha vazia.
 -}
 
