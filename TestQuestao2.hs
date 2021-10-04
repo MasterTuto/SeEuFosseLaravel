@@ -12,7 +12,7 @@ import TestLib
 - algoritmo:  utilizando o do, vai verificar a validade das expressoes passada, utilizando a funcao "verificarParenteses" do modulo "Questao2".
 -}
 main :: IO()
-main = 
+main =
     do
         assertTrue (verificarParenteses "") "\"\" should be valid"
 
@@ -23,7 +23,6 @@ main =
         assertTrue (verificarParenteses "(eu) (ja(nem)) (sei qm) ()(sou)") "\"(eu) (ja(nem)) (sei qm) ()(sou)\" should be valid"
 
         ------------------------------------------------------------------
-
         assertFalse (verificarParenteses ")()(") "\")()(\" should be invalid"
 
         assertFalse (verificarParenteses "()(") "\"()(\" should be invalid"

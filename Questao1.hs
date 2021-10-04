@@ -42,7 +42,7 @@ ehOperador  _  = False
 -}
 
 ehDigito :: Char -> Bool
-ehDigito simbolo = isDigit simbolo || simbolo == '.'
+ehDigito simbolo = (simbolo >= '0' && simbolo <= '9') || simbolo == '.'
 
 {-
 - acao:       fazer a avaliacao da expressao.  
