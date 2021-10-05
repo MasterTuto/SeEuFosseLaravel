@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -Wno-incomplete-patterns #-}
-module Main where
+module InterfaceFormula (main, montarTabelaCompleta, imprimirTabela, tautologia) where
 
 import Formula
 
