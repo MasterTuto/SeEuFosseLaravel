@@ -103,7 +103,7 @@ cadastrarContato agenda =
 
         if validarCpf cpf then
             do
-                agendaAlterada <- adicionarContato (criarContato cpf nome telefone email) agenda
+                let agendaAlterada = adicionarContato (criarContato cpf nome telefone email) agenda
                 salvarAgenda agendaAlterada
                 return agendaAlterada
         else

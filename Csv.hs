@@ -25,8 +25,9 @@ type CsvObj = [Linha]
 - quando faz isso, zera o acumulador e a linha.
 -}
 
-interpretarArquivo :: String -> String -> [String] -> CsvObj -> IO CsvObj
-interpretarArquivo [] acumulador linha csvObj = return (csvObj++[linha++[acumulador]])
+interpretarArquivo :: String -> String -> [String] -> CsvObj -> CsvObj
+interpretarArquivo [] [] [] [] = return []
+interpretarArquivo [] acumulador linha csvObj = csvObj++[linha++[acumulador]]
 interpretarArquivo (simbolo:conteudo) acumulador linha csvObj
     | simbolo == ','  = interpretarArquivo conteudo "" (linha++[acumulador]) csvObj
     | simbolo == '\n' = interpretarArquivo conteudo "" [] (csvObj++[linha++[acumulador]])
@@ -44,7 +45,7 @@ carregarArquivo :: Caminho -> IO CsvObj
 carregarArquivo nomeArquivo =
     do
         conteudo <- readFile nomeArquivo
-        interpretarArquivo conteudo "" [] []
+        return (interpretarArquivo conteudo "" [] [])
 
 {-
 - acao:       recebe uma linha (lista de String) e transforma numa String que representa a linha.  

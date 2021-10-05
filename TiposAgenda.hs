@@ -8,6 +8,12 @@ type Dado = String
 data ContatoData = Invalido | Contato CPF Nome Telefone Email deriving Show
 type Agenda = [ContatoData]
 
+
+instance Eq ContatoData where
+  (Contato c1 n1 t1 e1) == (Contato c2 n2 t2 e2) = c1==c1 && n1==n2 && t1==t2 && e1==e2
+  Invalido == Invalido = True
+  Invalido == (Contato {}) = False
+
 {-
 - acao:       recebe o ContatoData (com todas as informacoes) e retorna o CPF.  
 - entrada:    ContatoData (possui todas as informacoes do contato);  

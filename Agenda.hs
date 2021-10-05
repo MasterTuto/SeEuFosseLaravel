@@ -46,9 +46,9 @@ criarContato cpf nome telefone email
 - algoritmo:  Se o status do Contato for dado como Invalido, entao ele soh retorna a agenda sem a adicao.
 - Se o status do contato estiver normal, entao o contato vai ser adicionado agenda.
 -}
-adicionarContato :: ContatoData -> Agenda -> IO Agenda
-adicionarContato Invalido agenda = return agenda
-adicionarContato contato agenda = return (agenda++[contato])
+adicionarContato :: ContatoData -> Agenda -> Agenda
+adicionarContato Invalido agenda = agenda
+adicionarContato contato agenda = agenda++[contato]
     {-do
         agendaDeArquivo <- carregarAgenda
         salvarAgenda (agendaDeArquivo++[contato])
@@ -201,7 +201,7 @@ alterarContatoPorCpf contato agenda cpf
     | posicao > -1 = alterarContatoPorPosicao contato agenda posicao
     | otherwise = agenda
     where
-        posicao = (pesquisarContatoPorCpf cpf agenda)
+        posicao = pesquisarContatoPorCpf cpf agenda
 
 {-
 - acao:       Vai alterar o Contato utilizando o Nome. 
@@ -230,9 +230,11 @@ alterarContatoPorNome contato agenda nome
 -}
 converterParaAgenda :: CsvObj -> Agenda -> IO Agenda
 converterParaAgenda [] acc = return acc
-converterParaAgenda (registro:csvObj) acc = converterParaAgenda csvObj ((Contato cpf nome telefone email):acc)
-    where
-        [cpf, nome, telefone, email] = registro
+converterParaAgenda (registro:csvObj) acc
+    | length registro < 4 = return []
+    | otherwise           = converterParaAgenda csvObj ((Contato cpf nome telefone email):acc)
+        where
+            [cpf, nome, telefone, email] = registro
 
 {-
 - acao:       vai carregar a agenda utilizando caminho. 
